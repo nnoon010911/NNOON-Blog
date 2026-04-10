@@ -365,6 +365,7 @@ template {
 .btn-effects,
 .shuoshuo-navigation button:not(:disabled),
 #aside-content .card-info #card-info-btn,
+#page-header .site-intro-actions .site-intro-btn,
 .post-reward .reward-button,
 #rightside > div > button,
 #rightside > div > a,
@@ -387,6 +388,7 @@ template {
 .btn-effects:hover,
 .shuoshuo-navigation button:not(:disabled):hover,
 #aside-content .card-info #card-info-btn:hover,
+#page-header .site-intro-actions .site-intro-btn:hover,
 .post-reward .reward-button:hover,
 #rightside > div > button:hover,
 #rightside > div > a:hover,
@@ -405,6 +407,7 @@ template {
 .btn-effects:active,
 .shuoshuo-navigation button:not(:disabled):active,
 #aside-content .card-info #card-info-btn:active,
+#page-header .site-intro-actions .site-intro-btn:active,
 .post-reward .reward-button:active,
 #rightside > div > button:active,
 #rightside > div > a:active,
@@ -425,6 +428,7 @@ template {
 .btn-effects i,
 .shuoshuo-navigation button:not(:disabled) i,
 #aside-content .card-info #card-info-btn i,
+#page-header .site-intro-actions .site-intro-btn i,
 .post-reward .reward-button i,
 #rightside > div > button i,
 #rightside > div > a i,
@@ -442,6 +446,7 @@ template {
 .btn-effects:hover i,
 .shuoshuo-navigation button:not(:disabled):hover i,
 #aside-content .card-info #card-info-btn:hover i,
+#page-header .site-intro-actions .site-intro-btn:hover i,
 .post-reward .reward-button:hover i,
 #rightside > div > button:hover i,
 #rightside > div > a:hover i,
@@ -457,6 +462,7 @@ template {
 .btn-effects i + span,
 .shuoshuo-navigation button:not(:disabled) i + span,
 #aside-content .card-info #card-info-btn i + span,
+#page-header .site-intro-actions .site-intro-btn i + span,
 .post-reward .reward-button i + span,
 #rightside > div > button i + span,
 #rightside > div > a i + span,
@@ -474,6 +480,7 @@ template {
 .btn-effects:hover i + span,
 .shuoshuo-navigation button:not(:disabled):hover i + span,
 #aside-content .card-info #card-info-btn:hover i + span,
+#page-header .site-intro-actions .site-intro-btn:hover i + span,
 .post-reward .reward-button:hover i + span,
 #rightside > div > button:hover i + span,
 #rightside > div > a:hover i + span,
@@ -485,6 +492,7 @@ template {
 .btn-effects::before,
 .shuoshuo-navigation button:not(:disabled)::before,
 #aside-content .card-info #card-info-btn::before,
+#page-header .site-intro-actions .site-intro-btn::before,
 .post-reward .reward-button::before,
 #rightside > div > button::before,
 #rightside > div > a::before,
@@ -512,6 +520,7 @@ template {
 .btn-effects:hover::before,
 .shuoshuo-navigation button:not(:disabled):hover::before,
 #aside-content .card-info #card-info-btn:hover::before,
+#page-header .site-intro-actions .site-intro-btn:hover::before,
 .post-reward .reward-button:hover::before,
 #rightside > div > button:hover::before,
 #rightside > div > a:hover::before,
@@ -523,6 +532,7 @@ template {
 .btn-effects > *,
 .shuoshuo-navigation button:not(:disabled) > *,
 #aside-content .card-info #card-info-btn > *,
+#page-header .site-intro-actions .site-intro-btn > *,
 .post-reward .reward-button > *,
 #rightside > div > button > *,
 #rightside > div > a > *,
@@ -4194,6 +4204,71 @@ figure.highlight pre .javascript .function {
     font-size: 1.15em;
   }
 }
+#page-header .site-intro-actions {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+  -webkit-box-lines: multiple;
+  -moz-box-lines: multiple;
+  -o-box-lines: multiple;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+#page-header .site-intro-actions .site-intro-btn {
+  display: -webkit-inline-box;
+  display: -moz-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-box;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -o-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  min-width: 118px;
+  padding: 10px 16px;
+  border: 1px solid rgba(136,152,179,0.22);
+  background: rgba(255,255,255,0.72);
+  color: var(--font-color);
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+#page-header .site-intro-actions .site-intro-btn:hover {
+  border-color: rgba(47,111,237,0.26);
+  background: rgba(255,255,255,0.92);
+  color: #2f6fed;
+}
+#page-header .site-intro-actions .site-intro-btn.primary {
+  border-color: rgba(47,111,237,0.18);
+  background: #2f6fed;
+  color: var(--white);
+}
+#page-header .site-intro-actions .site-intro-btn.primary:hover {
+  background: #1a61eb;
+  color: var(--white);
+}
 #page-header #site_social_icons {
   display: none;
   margin: 0 auto;
@@ -4243,6 +4318,12 @@ figure.highlight pre .javascript .function {
 }
 #page-header.post-bg {
   height: 400px;
+  background-color: #eef4fb;
+  background-image: -webkit-linear-gradient(270deg, #f3f7fd 0, #edf3fb 100%);
+  background-image: -moz-linear-gradient(270deg, #f3f7fd 0, #edf3fb 100%);
+  background-image: -o-linear-gradient(270deg, #f3f7fd 0, #edf3fb 100%);
+  background-image: -ms-linear-gradient(270deg, #f3f7fd 0, #edf3fb 100%);
+  background-image: linear-gradient(180deg, #f3f7fd 0, #edf3fb 100%);
 }
 @media screen and (max-width: 768px) {
   #page-header.post-bg {
@@ -4253,7 +4334,14 @@ figure.highlight pre .javascript .function {
 #page-header.post-bg #nav a,
 #page-header.post-bg #nav span.site-page,
 #page-header.post-bg #nav .site-name {
-  color: var(--white);
+  color: var(--font-color);
+}
+#page-header.post-bg #post-info .post-title {
+  color: var(--font-color);
+}
+#page-header.post-bg #post-info #post-meta,
+#page-header.post-bg #post-info #post-meta a {
+  color: var(--card-meta);
 }
 #page-header #post-info {
   position: absolute;

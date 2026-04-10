@@ -138,6 +138,8 @@
   // post
   &.post-bg
     height: 400px
+    background-color: #eef4fb
+    background-image: linear-gradient(180deg, #f3f7fd 0, #edf3fb 100%)
 
     +maxWidth768()
       height: 360px
@@ -147,7 +149,15 @@
       a,
       span.site-page,
       .site-name
-        color: var(--white)
+        color: var(--font-color)
+
+    #post-info
+      .post-title
+        color: var(--font-color)
+
+      #post-meta,
+      #post-meta a
+        color: var(--card-meta)
 
   #post-info
     position: absolute

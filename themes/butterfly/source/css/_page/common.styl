@@ -1,0 +1,60 @@
+#body-wrap
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+
+.layout
+  display: flex
+  flex: 1 auto
+  margin: 0 auto
+  padding: 32px 18px 48px
+  max-width: 1160px
+  width: 100%
+
+  +maxWidth900()
+    flex-direction: column
+
+  +maxWidth768()
+    padding: 18px 8px 36px
+
+  +minWidth2000()
+    max-width: 60%
+
+  & > div:first-child:not(.nc)
+    @extend .cardHover
+    align-self: flex-start
+    padding: 42px 38px
+
+    +maxWidth768()
+      padding: 28px 20px
+
+  & > div:first-child
+    width: 74%
+    transition: all .3s
+
+    +maxWidth900()
+      width: 100% !important
+
+    if hexo-config('aside.position') == 'left'
+      +minWidth900()
+        order: 2
+
+  // 隱藏aside
+  &.hide-aside
+    max-width: 960px
+
+    +minWidth2000()
+      max-width: 1300px
+
+    & > div
+      width: 100% !important
+
+// for apple device
+.apple
+  #page-header.full_page
+    background-attachment: scroll !important
+
+  .recent-post-item,
+  .avatar-img,
+  .flink-item-icon
+    transform: translateZ(0)

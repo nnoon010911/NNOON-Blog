@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Ao Wang 2024 YOLOv10 端到端目标检测 | NNOON Blog</title><meta name="author" content="NNOON"><meta name="copyright" content="NNOON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7fafd"><meta name="description" content="Ao Wang 2024 YOLOv10 端到端目标检测研究问题 传统 YOLO 推理阶段依赖 NMS，增加后处理延迟，也让真正的端到端部署受到限制。 现有 YOLO 结构中还存在不少计算冗余，性能和效率之间还有提升空间。  核心方法 提出一致性双分配机制，用于 NMS-free 训练。 从效率和精度两方面重新审视 YOLO 的各个组件，做整体式设计，而不是只改某一个模块。  关键结果 论文报告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ao Wang 2024 YOLOv10 端到端目标检测">
+<meta property="og:url" content="https://nnoon010911.github.io/2026/04/10/Ao%20Wang%202024%20YOLOv10%20%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.html">
+<meta property="og:site_name" content="NNOON Blog">
+<meta property="og:description" content="Ao Wang 2024 YOLOv10 端到端目标检测研究问题 传统 YOLO 推理阶段依赖 NMS，增加后处理延迟，也让真正的端到端部署受到限制。 现有 YOLO 结构中还存在不少计算冗余，性能和效率之间还有提升空间。  核心方法 提出一致性双分配机制，用于 NMS-free 训练。 从效率和精度两方面重新审视 YOLO 的各个组件，做整体式设计，而不是只改某一个模块。  关键结果 论文报告">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nnoon010911.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2026-04-10T07:10:00.000Z">
+<meta property="article:modified_time" content="2026-04-10T15:03:13.071Z">
+<meta property="article:author" content="NNOON">
+<meta property="article:tag" content="YOLO">
+<meta property="article:tag" content="目标检测">
+<meta property="article:tag" content="论文">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nnoon010911.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ao Wang 2024 YOLOv10 端到端目标检测",
+  "url": "https://nnoon010911.github.io/2026/04/10/Ao%20Wang%202024%20YOLOv10%20%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/",
+  "image": "https://nnoon010911.github.io/img/avatar.jpg",
+  "datePublished": "2026-04-10T07:10:00.000Z",
+  "dateModified": "2026-04-10T15:03:13.071Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "NNOON",
+      "url": "https://nnoon010911.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://nnoon010911.github.io/2026/04/10/Ao%20Wang%202024%20YOLOv10%20%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ao Wang 2024 YOLOv10 端到端目标检测',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-info"></i><span> 关于</span></a></div></div></div></div><div class="post type-论文" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">NNOON Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-info"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Ao Wang 2024 YOLOv10 端到端目标检测</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-10T07:10:00.000Z" title="发表于 2026-04-10 15:10:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-10T15:03:13.071Z" title="更新于 2026-04-10 23:03:13">2026-04-10</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Ao-Wang-2024-YOLOv10-端到端目标检测"><a href="#Ao-Wang-2024-YOLOv10-端到端目标检测" class="headerlink" title="Ao Wang 2024 YOLOv10 端到端目标检测"></a>Ao Wang 2024 YOLOv10 端到端目标检测</h1><h2 id="研究问题"><a href="#研究问题" class="headerlink" title="研究问题"></a>研究问题</h2><ul>
+<li>传统 YOLO 推理阶段依赖 NMS，增加后处理延迟，也让真正的端到端部署受到限制。</li>
+<li>现有 YOLO 结构中还存在不少计算冗余，性能和效率之间还有提升空间。</li>
+</ul>
+<h2 id="核心方法"><a href="#核心方法" class="headerlink" title="核心方法"></a>核心方法</h2><ul>
+<li>提出一致性双分配机制，用于 NMS-free 训练。</li>
+<li>从效率和精度两方面重新审视 YOLO 的各个组件，做整体式设计，而不是只改某一个模块。</li>
+</ul>
+<h2 id="关键结果"><a href="#关键结果" class="headerlink" title="关键结果"></a>关键结果</h2><ul>
+<li>论文报告 YOLOv10 在多种尺度上取得了较好的性能效率平衡。</li>
+<li>论文摘要给出的代表性结果包括：<ul>
+<li>YOLOv10-S 在相近 AP 下比 RT-DETR-R18 更快。</li>
+<li>YOLOv10-B 在同等性能下，相比 YOLOv9-C 延迟更低、参数更少。</li>
+</ul>
+</li>
+</ul>
+<h2 id="我的判断"><a href="#我的判断" class="headerlink" title="我的判断"></a>我的判断</h2><ul>
+<li>对 YOLO11 改进来说，这篇论文的价值不在“直接复现 YOLOv10”，而在两个思路：<ul>
+<li>后处理路径是否还能继续压缩，特别是部署端延迟。</li>
+<li>改进不能只盯单个注意力模块，要从 backbone、neck、head、label assignment、loss、推理链路一起看。</li>
+</ul>
+</li>
+</ul>
+<h2 id="可复用知识"><a href="#可复用知识" class="headerlink" title="可复用知识"></a>可复用知识</h2><ul>
+<li>[[YOLO11 改进方向]]</li>
+</ul>
+<h2 id="关联项目"><a href="#关联项目" class="headerlink" title="关联项目"></a>关联项目</h2><ul>
+<li>[[YOLO11 改进主线]]</li>
+</ul>
+<h2 id="引用摘录"><a href="#引用摘录" class="headerlink" title="引用摘录"></a>引用摘录</h2><ul>
+<li>来源：arXiv 摘要 <code>https://arxiv.org/abs/2405.14458</code></li>
+<li>关键词：NMS-free、dual assignments、efficiency-accuracy co-design</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://nnoon010911.github.io">NNOON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://nnoon010911.github.io/2026/04/10/Ao%20Wang%202024%20YOLOv10%20%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">https://nnoon010911.github.io/2026/04/10/Ao%20Wang%202024%20YOLOv10%20%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://nnoon010911.github.io" target="_blank">NNOON Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a><a class="post-meta__tags" href="/tags/%E8%AE%BA%E6%96%87/">论文</a><a class="post-meta__tags" href="/tags/YOLO/">YOLO</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/10/YOLO11%20%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF/" title="YOLO11 改进主线"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">YOLO11 改进主线</div></div><div class="info-2"><div class="info-item-1">YOLO11 改进主线目标 在特定任务上超过官方 YOLO11 baseline。 建立一条可复现、可对照、可部署的改进路线，而不是零散试模块。  当前假设 目前默认任务是通用目标检测。 目前默认没有锁定数据集，因此先做“方法层面的研究主线”。  研究问题 YOLO11 的主要瓶颈在训练策略、特征融合、结构模块还是后处理链路？ 哪类改动能在精度提升和部...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/10/YOLO11%20%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF/" title="YOLO11 改进主线"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-10</div><div class="info-item-2">YOLO11 改进主线</div></div><div class="info-2"><div class="info-item-1">YOLO11 改进主线目标 在特定任务上超过官方 YOLO11 baseline。 建立一条可复现、可对照、可部署的改进路线，而不是零散试模块。  当前假设 目前默认任务是通用目标检测。 目前默认没有锁定数据集，因此先做“方法层面的研究主线”。  研究问题 YOLO11 的主要瓶颈在训练策略、特征融合、结构模块还是后处理链路？ 哪类改动能在精度提升和部...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ao-Wang-2024-YOLOv10-%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="toc-number">1.</span> <span class="toc-text">Ao Wang 2024 YOLOv10 端到端目标检测</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">研究问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">核心方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E7%BB%93%E6%9E%9C"><span class="toc-number">1.3.</span> <span class="toc-text">关键结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">1.4.</span> <span class="toc-text">我的判断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9F%A5%E8%AF%86"><span class="toc-number">1.5.</span> <span class="toc-text">可复用知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.6.</span> <span class="toc-text">关联项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%91%98%E5%BD%95"><span class="toc-number">1.7.</span> <span class="toc-text">引用摘录</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By NNOON</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"></div><div id="rightside-config-show"><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

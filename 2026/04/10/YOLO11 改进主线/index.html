@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>YOLO11 改进主线 | NNOON Blog</title><meta name="author" content="NNOON"><meta name="copyright" content="NNOON"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7fafd"><meta name="description" content="YOLO11 改进主线目标 在特定任务上超过官方 YOLO11 baseline。 建立一条可复现、可对照、可部署的改进路线，而不是零散试模块。  当前假设 目前默认任务是通用目标检测。 目前默认没有锁定数据集，因此先做“方法层面的研究主线”。  研究问题 YOLO11 的主要瓶颈在训练策略、特征融合、结构模块还是后处理链路？ 哪类改动能在精度提升和部署代价之间取得更稳的收益？  关键论文 [[A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLO11 改进主线">
+<meta property="og:url" content="https://nnoon010911.github.io/2026/04/10/YOLO11%20%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF/index.html">
+<meta property="og:site_name" content="NNOON Blog">
+<meta property="og:description" content="YOLO11 改进主线目标 在特定任务上超过官方 YOLO11 baseline。 建立一条可复现、可对照、可部署的改进路线，而不是零散试模块。  当前假设 目前默认任务是通用目标检测。 目前默认没有锁定数据集，因此先做“方法层面的研究主线”。  研究问题 YOLO11 的主要瓶颈在训练策略、特征融合、结构模块还是后处理链路？ 哪类改动能在精度提升和部署代价之间取得更稳的收益？  关键论文 [[A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nnoon010911.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2026-04-10T07:10:00.000Z">
+<meta property="article:modified_time" content="2026-04-10T15:03:13.077Z">
+<meta property="article:author" content="NNOON">
+<meta property="article:tag" content="YOLO11">
+<meta property="article:tag" content="目标检测">
+<meta property="article:tag" content="项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nnoon010911.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "YOLO11 改进主线",
+  "url": "https://nnoon010911.github.io/2026/04/10/YOLO11%20%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF/",
+  "image": "https://nnoon010911.github.io/img/avatar.jpg",
+  "datePublished": "2026-04-10T07:10:00.000Z",
+  "dateModified": "2026-04-10T15:03:13.077Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "NNOON",
+      "url": "https://nnoon010911.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://nnoon010911.github.io/2026/04/10/YOLO11%20%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'YOLO11 改进主线',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-info"></i><span> 关于</span></a></div></div></div></div><div class="post type-项目" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">NNOON Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-circle-info"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">YOLO11 改进主线</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-10T07:10:00.000Z" title="发表于 2026-04-10 15:10:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-10T15:03:13.077Z" title="更新于 2026-04-10 23:03:13">2026-04-10</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="YOLO11-改进主线"><a href="#YOLO11-改进主线" class="headerlink" title="YOLO11 改进主线"></a>YOLO11 改进主线</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>在特定任务上超过官方 YOLO11 baseline。</li>
+<li>建立一条可复现、可对照、可部署的改进路线，而不是零散试模块。</li>
+</ul>
+<h2 id="当前假设"><a href="#当前假设" class="headerlink" title="当前假设"></a>当前假设</h2><ul>
+<li>目前默认任务是通用目标检测。</li>
+<li>目前默认没有锁定数据集，因此先做“方法层面的研究主线”。</li>
+</ul>
+<h2 id="研究问题"><a href="#研究问题" class="headerlink" title="研究问题"></a>研究问题</h2><ul>
+<li>YOLO11 的主要瓶颈在训练策略、特征融合、结构模块还是后处理链路？</li>
+<li>哪类改动能在精度提升和部署代价之间取得更稳的收益？</li>
+</ul>
+<h2 id="关键论文"><a href="#关键论文" class="headerlink" title="关键论文"></a>关键论文</h2><ul>
+<li>[[Ao Wang 2024 YOLOv10 端到端目标检测]]</li>
+</ul>
+<h2 id="当前进展"><a href="#当前进展" class="headerlink" title="当前进展"></a>当前进展</h2><ul>
+<li>Vault 结构已搭好。</li>
+<li>日记、周记、论文、知识、项目模板已就位。</li>
+<li>第一篇主线论文笔记和第一条知识卡片已建立。</li>
+</ul>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><ul>
+<li>先明确你的数据集与指标：<ul>
+<li>数据集名称</li>
+<li>类别数</li>
+<li>目标尺度分布</li>
+<li>主要评价指标</li>
+</ul>
+</li>
+<li>建立 baseline 记录：<ul>
+<li>模型规模</li>
+<li>输入尺寸</li>
+<li>mAP</li>
+<li>推理时延</li>
+<li>参数量和 FLOPs</li>
+</ul>
+</li>
+<li>再按下面顺序做改进：<ol>
+<li>训练策略对照</li>
+<li>neck 改进</li>
+<li>backbone 局部替换</li>
+<li>head 与后处理优化</li>
+</ol>
+</li>
+</ul>
+<h2 id="输出物"><a href="#输出物" class="headerlink" title="输出物"></a>输出物</h2><ul>
+<li>[[研究总览]]</li>
+<li>[[论文索引]]</li>
+<li>[[知识索引]]</li>
+<li>[[YOLO11 改进方向]]</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://nnoon010911.github.io">NNOON</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://nnoon010911.github.io/2026/04/10/YOLO11%20%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF/">https://nnoon010911.github.io/2026/04/10/YOLO11%20%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://nnoon010911.github.io" target="_blank">NNOON Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%A1%B9%E7%9B%AE/">项目</a><a class="post-meta__tags" href="/tags/YOLO11/">YOLO11</a><a class="post-meta__tags" href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/10/Ao%20Wang%202024%20YOLOv10%20%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" title="Ao Wang 2024 YOLOv10 端到端目标检测"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Ao Wang 2024 YOLOv10 端到端目标检测</div></div><div class="info-2"><div class="info-item-1">Ao Wang 2024 YOLOv10 端到端目标检测研究问题 传统 YOLO 推理阶段依赖 NMS，增加后处理延迟，也让真正的端到端部署受到限制。 现有 YOLO 结构中还存在不少计算冗余，性能和效率之间还有提升空间。  核心方法 提出一致性双分配机制，用于 NMS-free 训练。 从效率和精度两方面重新审视 YOLO 的各个组件，做整体式设计，...</div></div></div></a><a class="pagination-related" href="/2026/04/10/hello-world/" title="博客已开始重建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">博客已开始重建</div></div><div class="info-2"><div class="info-item-1">这个站点正在从默认 Hexo 模板收敛为更克制的个人技术博客。 接下来会主要记录三类内容：  代码与工程实践 工具使用与效率优化 系统设计与长期维护经验  当前状态 主题已经从默认展示型风格改为更偏文档阅读的结构 首页保留简短介绍，主体内容以文章列表为中心 侧边栏与页脚做了减法，减少空模块和模板感  后续计划 补齐关于页与基础站点信息 持续替换默认示例...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/10/Ao%20Wang%202024%20YOLOv10%20%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" title="Ao Wang 2024 YOLOv10 端到端目标检测"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-10</div><div class="info-item-2">Ao Wang 2024 YOLOv10 端到端目标检测</div></div><div class="info-2"><div class="info-item-1">Ao Wang 2024 YOLOv10 端到端目标检测研究问题 传统 YOLO 推理阶段依赖 NMS，增加后处理延迟，也让真正的端到端部署受到限制。 现有 YOLO 结构中还存在不少计算冗余，性能和效率之间还有提升空间。  核心方法 提出一致性双分配机制，用于 NMS-free 训练。 从效率和精度两方面重新审视 YOLO 的各个组件，做整体式设计，...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#YOLO11-%E6%94%B9%E8%BF%9B%E4%B8%BB%E7%BA%BF"><span class="toc-number">1.</span> <span class="toc-text">YOLO11 改进主线</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-number">1.1.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E5%81%87%E8%AE%BE"><span class="toc-number">1.2.</span> <span class="toc-text">当前假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">研究问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E8%AE%BA%E6%96%87"><span class="toc-number">1.4.</span> <span class="toc-text">关键论文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E8%BF%9B%E5%B1%95"><span class="toc-number">1.5.</span> <span class="toc-text">当前进展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E6%AD%A5"><span class="toc-number">1.6.</span> <span class="toc-text">下一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E7%89%A9"><span class="toc-number">1.7.</span> <span class="toc-text">输出物</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By NNOON</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"></div><div id="rightside-config-show"><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

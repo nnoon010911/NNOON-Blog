@@ -12,8 +12,9 @@ language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
-## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://nnoon010911.github.io
+## 当前仓库通过 GitHub Pages 从项目仓库发布，路径需要包含仓库名
+url: https://nnoon010911.github.io/NNOON-Blog
+root: /NNOON-Blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:

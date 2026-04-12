@@ -2,7 +2,7 @@
 
 一个基于 Hexo 搭建的中文技术博客，主要记录代码、工具与系统设计相关内容。仓库同时保存博客源码、主题配置和部署流程，适合作为个人博客的长期维护仓库。
 
-在线地址：<https://nnoon010911.github.io>
+在线地址：<https://nnoon010911.github.io/NNOON-Blog/>
 
 ## 项目概览
 
@@ -70,18 +70,20 @@ hexo s
 - `hexo g`：生成静态博客目录
 - `hexo s`：启动本地预览服务
 
-本地确认无误后，再执行部署：
+本地确认无误后，再执行提交发布：
 
 ```bash
-hexo d
+git add .
+git commit -m "docs(blog): 更新站点内容"
+git push origin main
 ```
 
 注意：
 
 - `hexo s` 启动后会占用当前终端用于本地预览
-- 如果要继续执行 `hexo d`，需要先停止预览，或新开一个终端窗口
-- 当前仓库已配置部署目标，执行 `hexo d` 后会把站点发布到对应 GitHub Pages 仓库
-- 部署完成后，其他人就可以通过 `https://你的用户名.github.io` 访问你的网站
+- 如果要继续提交发布，建议先停止预览，或新开一个终端窗口
+- 当前仓库主要通过 `git push origin main` 触发 GitHub Actions 自动发布
+- 部署完成后，其他人可以通过 `https://你的用户名.github.io/仓库名/` 访问你的网站
 
 ## 写文章流程
 
@@ -145,22 +147,18 @@ git push origin main
 
 这意味着日常更新博客时，通常不需要手动执行 `hexo deploy`，直接提交源码并推送即可。
 
-如果你希望直接从本地部署，也可以使用：
+当前仓库现在是项目 Pages 形式，推荐发布方式是：
 
 ```bash
-hexo d
+git add .
+git commit -m "docs(blog): 更新站点配置"
+git push origin main
 ```
 
-当前仓库的部署配置已指向：
+GitHub Actions 会自动构建并发布到：
 
 ```text
-https://github.com/nnoon010911/nnoon010911.github.io.git
-```
-
-因此本项目部署完成后，对应站点地址为：
-
-```text
-https://nnoon010911.github.io
+https://nnoon010911.github.io/NNOON-Blog/
 ```
 
 ## 目录结构

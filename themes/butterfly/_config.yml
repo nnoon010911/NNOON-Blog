@@ -164,7 +164,7 @@ subtitle:
   source: false
   # If you close the typewriter effect, the subtitle will only show the first line of sub
   sub:
-    - 记录代码、工具与系统设计
+    - 记录NNOON的Coding历程
 
 # Article layout on the homepage
 # 1: Cover on the left, info on the right
@@ -284,7 +284,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: 专注于代码、工具与长期可读性的技术记录
+    description: 目前的经验帖
     button:
       enable: false
       icon: fab fa-github

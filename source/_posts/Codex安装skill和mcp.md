@@ -9,42 +9,33 @@ modify: 2026-05-12 03:03:53
 ---
 目前已经安装的 **Skills** 有：
 
-1. **Superpowers**  
-    用于增强 Codex 的通用任务执行能力。  
-    仓库地址： `https://github.com/obra/superpowers`
-2. **Claude Scholar**  
-    用于学术研究、论文阅读、科研写作等场景。  
-    仓库地址： `https://github.com/Galaxy-Dawn/claude-scholar`
-3. **academic-skills**  
-    偏向学术辅助能力，适合文献追踪、科研分析等任务。  
-    仓库地址： `https://github.com/LigphiDonk/academic-skills`
-4. **PPT Agent**  
-    用于辅助生成、整理和优化 PPT 相关内容。  
-    仓库地址： `https://github.com/zengwenliang416/ppt-agent`
-5. **drawio-skills**  
-    用于绘制流程图、结构图、示意图等 draw. io 相关任务。  
-    仓库地址： `https://github.com/bahayonghang/drawio-skills`
-6. **PPT Master**  
-    用于根据 PDF、DOCX、Markdown 等材料生成原生可编辑的 PowerPoint 文件。  
-    仓库地址： `https://github.com/hugohe3/ppt-master`
-7. **Nature Skills**  
-    用于 Nature 风格学术写作、科研绘图、参考文献处理、论文阅读、审稿回复和论文转 PPT 等科研场景。  
+1. **academic-skills**
+    偏向学术辅助能力，适合真实文献追踪、学术图示提示词设计和科研分析等任务。
+    仓库地址：`https://github.com/LigphiDonk/academic-skills`
+2. **drawio-skills**
+    用于绘制流程图、系统架构图、学术示意图等 draw.io 相关任务。
+    仓库地址：`https://github.com/bahayonghang/drawio-skills`
+3. **PPT Master**
+    用于根据 PDF、DOCX、Markdown 等材料生成原生可编辑的 PowerPoint 文件，并支持模板设计、动画、视觉审查和现有 PPT 优化。
+    仓库地址：`https://github.com/hugohe3/ppt-master`
+4. **Nature Skills**
+    用于 Nature 风格学术写作、科研绘图、参考文献处理、论文阅读、审稿回复和论文转 PPT 等科研场景。
     仓库地址：`https://github.com/Yuan1z0825/nature-skills`
-7. **Guizang PPT Skill**  
-    用于生成单文件 HTML 横向翻页网页 PPT，支持杂志风、瑞士风、WebGL 背景、章节幕封、数据大字报、图片网格等演示模板。  
+5. **Guizang PPT Skill**
+    用于生成单文件 HTML 横向翻页网页 PPT，支持杂志风、瑞士风、WebGL 背景、章节幕封、数据大字报和图片网格等演示模板。
     仓库地址：`https://github.com/op7418/guizang-ppt-skill`
-7. **Karpathy Skills**  
-    用于增强 Codex 的工程执行纪律，帮助 agent 在写代码、调试、重构和 review 时减少错误假设、避免过度设计、保持最小改动，并以可验证目标完成任务闭环。  
-    仓库地址：`https://github.com/multica-ai/andrej-karpathy-skills`
-10. **Academic Research Skills**  
-    用于学术研究全流程辅助，包括研究问题收敛、深度文献调研、系统综述、论文写作、引用核查、同行评审模拟、实验规划、修订润色和投稿准备等科研场景。  
+6. **Academic Research Skills**
+    对应本地 `academic-research-suite` Skill，用于辅助完整的学术研究流程，包括研究问题收敛、深度文献调研、系统综述、论文写作、引用核查、同行评审模拟、实验规划、修订润色和投稿准备等科研场景。
     仓库地址：`https://github.com/Imbad0202/academic-research-skills-codex`
-11. **Slide Image to Editable PPTX**  
-     用于将 PPT 幻灯片截图、页面参考图或设计稿转换为高保真、可编辑的 PowerPoint 文件，适合复刻已有幻灯片风格、从图片恢复可编辑 PPT、制作论文汇报或展示材料。  
-     仓库地址：`https://github.com/w1163222589-coder/slide-image-to-editable-pptx`
-12. **PaperSpine**  
-     用于学术论文与报告写作的结构化辅助，以 motivation 为主线贯穿选题理解、材料梳理、文献研究、引用管理、段落重写、LaTeX 输出、中文翻译包生成与完整性审计等流程。  
-     仓库地址：`https://github.com/WUBING2023/PaperSpine`
+7. **Slide Image to Editable PPTX**
+    用于将 PPT 幻灯片截图、页面参考图或设计稿转换为高保真、可编辑的 PowerPoint 文件，适合复刻已有幻灯片风格、从图片恢复可编辑 PPT，以及制作论文汇报或展示材料。
+    仓库地址：`https://github.com/w1163222589-coder/slide-image-to-editable-pptx`
+8. **PaperSpine**
+    用于结构化辅助学术论文与报告写作，以 motivation 为主线贯穿选题理解、材料梳理、文献研究、引用管理、段落重写、LaTeX 输出、中文翻译包生成与完整性审计等流程。
+    仓库地址：`https://github.com/WUBING2023/PaperSpine`
+9. **grill-me**
+    用于对计划或设计进行持续、深入的访谈和压力测试，逐项厘清决策分支、依赖关系与潜在分歧，帮助形成更清晰、可执行的方案。
+    Skill 地址：`https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me`
 
 ---
 
